@@ -56,7 +56,6 @@ Edit `.env` and fill in your values:
 ```env
 DISCORD_TOKEN=your_discord_bot_token_here
 DISCORD_CLIENT_ID=your_client_id_here
-DISCORD_GUILD_ID=your_guild_id_here  # optional, for faster testing
 ```
 
 #### Where to get these values:
@@ -64,7 +63,6 @@ DISCORD_GUILD_ID=your_guild_id_here  # optional, for faster testing
 2. Create a new Application → Bot
 3. Copy the **Bot Token** → `DISCORD_TOKEN`
 4. Copy the **Application/Client ID** → `DISCORD_CLIENT_ID`
-5. (Optional) Your server's ID → `DISCORD_GUILD_ID`
 
 ### 5. Invite the bot to your server
 
@@ -96,6 +94,9 @@ npm start
 ```
 
 ## Commands
+
+Slash commands are registered globally. Discord can take up to one hour to
+propagate new or changed commands to every server.
 
 | Command | Description |
 |---------|-------------|
