@@ -104,13 +104,15 @@ You can also control the bot by writing directly in the text chat:
 
 ```text
 ش اسم الأغنية
+شغل اسم الأغنية
 وقف
 س
+سكب
 ```
 
-- `ش` — play a song or playlist
+- `ش` or `شغل` — play a song or playlist
 - `وقف` — stop playback and clear the queue
-- `س` — skip the current song
+- `س` or `سكب` — skip the current song
 
 | Command | Description |
 |---------|-------------|

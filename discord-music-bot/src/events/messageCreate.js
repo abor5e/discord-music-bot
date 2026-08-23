@@ -54,13 +54,14 @@ module.exports = {
             return;
         }
 
-        if (content === 'س') {
+        if (content === 'س' || content === 'سكب') {
             await skipCommand.execute(makeInteraction(message, ''), client);
             return;
         }
 
-        if (content === 'ش' || content.startsWith('ش ')) {
-            const query = content.slice(1).trim();
+        if (content === 'ش' || content.startsWith('ش ') || content === 'شغل' || content.startsWith('شغل ')) {
+            const commandLength = content.startsWith('شغل') ? 3 : 1;
+            const query = content.slice(commandLength).trim();
             if (!query) {
                 await message.reply('❌ اكتب اسم الأغنية بعد الأمر: `ش اسم الأغنية`');
                 return;
