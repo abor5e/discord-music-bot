@@ -1,5 +1,5 @@
 require('dotenv').config();
-const { Client, GatewayIntentBits, Collection } = require('discord.js');
+const { Client, GatewayIntentBits, Collection, REST, Routes } = require('discord.js');
 const { Kazagumo } = require('kazagumo');
 const { Connectors } = require('shoukaku');
 const fs = require('fs');
@@ -52,6 +52,20 @@ for (const file of fs.readdirSync(commandsPath).filter(f => f.endsWith('.js'))) 
     if (cmd.data && cmd.execute) client.commands.set(cmd.data.name, cmd);
 }
 
+// Register slash commands automatically on every startup so external hosts
+// do not need a separate deploy command.
+async function registerGlobalCommands() {
+    if (!process.env.DISCORD_CLIENT_ID) {
+        console.warn('⚠️ DISCORD_CLIENT_ID is missing; slash commands were not registered.');
+        return;
+    }
+
+    const rest = new REST().setToken(process.env.DISCORD_TOKEN);
+    const definitions = [...client.commands.values()].map(command => command.data.toJSON());
+    await rest.put(Routes.applicationCommands(process.env.DISCORD_CLIENT_ID), { body: definitions });
+    console.log(`✅ Registered ${definitions.length} global slash commands automatically`);
+}
+
 // ── Load events ────────────────────────────────────────────────────────────────
 const eventsPath = path.join(__dirname, 'events');
 for (const file of fs.readdirSync(eventsPath).filter(f => f.endsWith('.js'))) {
@@ -99,6 +113,12 @@ async function joinAfkChannel(guild) {
 
 // ── Auto-join AFK channel when bot is ready ────────────────────────────────────
 client.once('clientReady', async () => {
+    try {
+        await registerGlobalCommands();
+    } catch (e) {
+        console.error('❌ Failed to register global slash commands:', e.message);
+    }
+
     // Wait a moment for Lavalink to connect before joining channels
     setTimeout(async () => {
         for (const guild of client.guilds.cache.values()) {
