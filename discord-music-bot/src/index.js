@@ -91,7 +91,7 @@ async function joinAfkChannel(guild) {
             deaf:    true,
             volume:  100,
         });
-        console.log(`✅ Joined AFK channel [${AFK_CHANNEL_NAME}] in guild: ${guild.name}`);
+        console.log(`✅ Joined AFK channel [${voiceChannel.name}] in guild: ${guild.name}`);
     } catch (e) {
         console.error(`❌ Failed to join AFK channel in ${guild.name}:`, e.message);
     }
