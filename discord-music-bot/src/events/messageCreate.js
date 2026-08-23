@@ -1,7 +1,6 @@
 const playCommand = require('../commands/play');
 const stopCommand = require('../commands/stop');
 const skipCommand = require('../commands/skip');
-const setAfkCommand = require('../commands/setafk');
 
 function makeInteraction(message, query) {
     const reply = async (payload) => {
@@ -19,7 +18,6 @@ function makeInteraction(message, query) {
         user: message.author,
         options: {
             getString: () => query,
-            getChannel: () => undefined,
         },
         deferReply: async () => {},
         editReply: async (payload) => {
@@ -39,15 +37,6 @@ module.exports = {
 
         const content = message.content.trim();
         if (!content) return;
-
-        if (content === 'افك') {
-            if (!message.member.permissions.has('ManageGuild')) {
-                await message.reply('❌ تحتاج صلاحية **Manage Server** لتحديد قناة AFK.');
-                return;
-            }
-            await setAfkCommand.execute(makeInteraction(message, ''), client);
-            return;
-        }
 
         if (content === 'وقف') {
             await stopCommand.execute(makeInteraction(message, ''), client);

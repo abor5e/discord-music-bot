@@ -1,23 +1,30 @@
-const { SlashCommandBuilder, PermissionFlagsBits } = require('discord.js');
+const { SlashCommandBuilder, PermissionFlagsBits, ChannelType } = require('discord.js');
 const { saveGuildConfig, getGuildConfig } = require('../utils/guildConfig');
-
-const DEFAULT_AFK_CHANNEL_NAME = 'موسيقى';
 
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('setafk')
-        .setDescription('إدخال البوت إلى روم الصوت الثابت: موسيقى')
-        .setDefaultMemberPermissions(PermissionFlagsBits.ManageGuild),
+        .setDescription('تحديد روم AFK الذي يبقى فيه البوت')
+        .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
+        .addChannelOption(opt =>
+            opt.setName('channel')
+                .setDescription('اختر أي روم صوتي')
+                .addChannelTypes(ChannelType.GuildVoice)
+                .setRequired(true)
+        ),
 
     async execute(interaction, client) {
-        // The AFK channel is intentionally fixed by name. The command may be
-        // sent from any text channel and never changes the configured channel.
-        const voiceChannel = interaction.guild?.channels.cache.find(
-            channel => channel.type === 2 && channel.name === DEFAULT_AFK_CHANNEL_NAME
-        );
+        if (!interaction.memberPermissions?.has(PermissionFlagsBits.Administrator)) {
+            return interaction.reply({
+                embeds: [{ color: 0xff4444, description: '❌ **هذا الأمر للأدمن فقط.**' }],
+                ephemeral: true,
+            });
+        }
+
+        const voiceChannel = interaction.options.getChannel('channel');
         if (!voiceChannel) {
             return interaction.reply({
-                embeds: [{ color: 0xff4444, description: `❌ **أنشئ رومًا صوتيًا اسمه "${DEFAULT_AFK_CHANNEL_NAME}" أولاً.**` }],
+                embeds: [{ color: 0xff4444, description: '❌ **اختر رومًا صوتيًا أولاً.**' }],
                 ephemeral: true,
             });
         }
