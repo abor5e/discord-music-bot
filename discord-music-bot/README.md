@@ -98,6 +98,20 @@ npm start
 Slash commands are registered globally. Discord can take up to one hour to
 propagate new or changed commands to every server.
 
+### Quick text commands
+
+You can also control the bot by writing directly in the text chat:
+
+```text
+ش اسم الأغنية
+وقف
+س
+```
+
+- `ش` — play a song or playlist
+- `وقف` — stop playback and clear the queue
+- `س` — skip the current song
+
 | Command | Description |
 |---------|-------------|
 | `/play <query>` | Play a song or playlist |
