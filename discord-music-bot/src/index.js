@@ -28,9 +28,7 @@ client.commands    = new Collection();
 client.playerPanels = new Map(); // guildId → { messageId, channel }
 
 const NODES = [
-    { name: 'Jirayu',    url: 'lavalink.jirayu.net:13592', auth: 'youshallnotpass', secure: false },
-    { name: 'Horizxon',  url: 'll.horizxon.tech:80',        auth: 'youshallnotpass', secure: false },
-    { name: 'Horizxon2', url: 'lavalink.horizxon.tech:80',  auth: 'youshallnotpass', secure: false },
+    { name: 'Jirayu', url: 'lavalink.jirayu.net:13592', auth: 'youshallnotpass', secure: false },
 ];
 
 client.kazagumo = new Kazagumo(
