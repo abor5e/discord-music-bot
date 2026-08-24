@@ -57,7 +57,9 @@ module.exports = {
 
             case 'stop':
                 client.playerPanels.delete(interaction.guildId);
-                await player.destroy();
+                player.setLoop('none');
+                player.queue.clear();
+                if (player.queue.current) player.skip();
                 await interaction.message.delete().catch(() => {});
                 await interaction.followUp({ embeds: [{ color: 0xff4444, description: '⏹ **تم إيقاف الموسيقى.**' }] }).catch(() => {});
                 return;

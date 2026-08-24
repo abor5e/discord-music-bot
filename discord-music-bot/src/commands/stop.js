@@ -6,7 +6,9 @@ module.exports = {
         const player = client.kazagumo.getPlayer(interaction.guildId);
         if (!player) return interaction.reply({ embeds: [{ color: 0xff4444, description: '❌ لا يوجد موسيقى!' }], ephemeral: true });
         client.playerPanels.delete(interaction.guildId);
-        await player.destroy();
+        player.setLoop('none');
+        player.queue.clear();
+        if (player.queue.current) player.skip();
         return interaction.reply({ embeds: [{ color: 0xff4444, description: '⏹ **تم إيقاف الموسيقى وتفريغ القائمة.**' }] });
     },
 };

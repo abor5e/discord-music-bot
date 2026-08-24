@@ -1,6 +1,8 @@
 const playCommand = require('../commands/play');
 const stopCommand = require('../commands/stop');
 const skipCommand = require('../commands/skip');
+const volumeCommand = require('../commands/volume');
+const loopCommand = require('../commands/loop');
 
 function makeInteraction(message, query) {
     const reply = async (payload) => {
@@ -18,6 +20,7 @@ function makeInteraction(message, query) {
         user: message.author,
         options: {
             getString: () => query,
+            getInteger: () => Number(query),
         },
         deferReply: async () => {},
         editReply: async (payload) => {
@@ -45,6 +48,21 @@ module.exports = {
 
         if (content === 'س' || content === 'سكب') {
             await skipCommand.execute(makeInteraction(message, ''), client);
+            return;
+        }
+
+        if (content === 'ت') {
+            await loopCommand.execute(makeInteraction(message, ''), client);
+            return;
+        }
+
+        if (/^ص(?:\s|$)/.test(content)) {
+            const amount = content.slice(1).trim();
+            if (!/^\d+$/.test(amount) || Number(amount) < 0 || Number(amount) > 200) {
+                await message.reply('❌ استخدم الصوت بهذا الشكل: `ص 100` (من 0 إلى 200).');
+                return;
+            }
+            await volumeCommand.execute(makeInteraction(message, amount), client);
             return;
         }
 

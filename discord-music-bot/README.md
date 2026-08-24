@@ -1,21 +1,16 @@
-# 🎵 Discord Music Bot
+# Discord Music Bot
 
-A feature-rich Discord music bot with a full interactive control panel.
+A Discord music bot powered by Kazagumo, Shoukaku, and Lavalink.
 
 ## Features
 
 - 🎵 Play music from YouTube by name or URL
-- 🎛️ Full control panel with interactive buttons on every song
 - 🔊 Volume control (0–200%)
-- ⏩ Fast forward / rewind 15 seconds
 - ⏭ Next / ⏮ Previous song
 - 🔁 Loop mode (off / song / queue)
 - 🔀 Shuffle queue
 - 📋 View the queue
-- ⏸ Pause / ▶️ Resume
 - ⏹ Stop and clear queue
-- 🤖 Autoplay toggle
-- 📝 Lyrics search link
 - 🗑️ Clear queue
 
 ## Setup
@@ -33,19 +28,7 @@ cd discord-music-bot
 npm install
 ```
 
-### 3. Install yt-dlp (required for music playback)
-
-```bash
-# Linux/Mac
-pip install yt-dlp
-# or
-brew install yt-dlp
-
-# Windows
-winget install yt-dlp
-```
-
-### 4. Configure environment variables
+### 3. Configure environment variables
 
 ```bash
 cp .env.example .env
@@ -64,7 +47,7 @@ DISCORD_CLIENT_ID=your_client_id_here
 3. Copy the **Bot Token** → `DISCORD_TOKEN`
 4. Copy the **Application/Client ID** → `DISCORD_CLIENT_ID`
 
-### 5. Invite the bot to your server
+### 4. Invite the bot to your server
 
 Generate an invite URL:
 ```
@@ -81,13 +64,13 @@ Required permissions:
 - Read Message History
 - Use Slash Commands
 
-### 6. Deploy slash commands
+### 5. Deploy slash commands
 
 ```bash
 npm run deploy
 ```
 
-### 7. Start the bot
+### 6. Start the bot
 
 ```bash
 npm start
@@ -130,24 +113,27 @@ You can also control the bot by writing directly in the text chat:
 | `/seek <seconds>` | Jump to timestamp |
 | `/remove <position>` | Remove song from queue |
 
-## Control Panel Buttons
+## Direct text controls
 
-When a song starts, a control panel with buttons appears automatically:
+The bot can also be controlled without a slash prefix:
 
-**Row 1 — Playback:**
-⏮ Previous | ⏪ -15s | ⏸/▶️ Pause/Resume | ⏩ +15s | ⏭ Next
+```text
+ش اسم الأغنية
+شغل اسم الأغنية
+وقف
+س
+سكب
+ص 100
+ت
+```
 
-**Row 2 — Queue Management:**
-🔁 Loop | 🔀 Shuffle | 📋 Queue | 🎵 Now Playing | ⏹ Stop
-
-**Row 3 — Volume Presets:**
-🔉 10% | 🔊 50% | 🔊 100% | 🔊 150% | 📢 200%
-
-**Row 4 — Extra Controls:**
-🔽 Vol-10 | 🔼 Vol+10 | 🗑️ Clear Queue | 🤖 Autoplay | 📝 Lyrics
+- `ش` or `شغل` — play a song or playlist
+- `وقف` — stop playback and clear the queue without leaving the voice channel
+- `س` or `سكب` — skip the current song
+- `ص 0-200` — set volume
+- `ت` — cycle repeat mode
 
 ## Requirements
 
-- Node.js 18+
-- Python 3 + yt-dlp (for music streaming)
-- FFmpeg (usually included via `ffmpeg-static`)
+- Node.js 20+
+- A reachable Lavalink server
